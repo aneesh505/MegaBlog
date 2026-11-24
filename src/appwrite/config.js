@@ -13,6 +13,13 @@ export class Service{
             .setProject(conf.appwriteProjectId);
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
+
+        // Ping Appwrite to verify connection
+        this.client.ping().then(response => {
+            console.log("Appwrite connected:", response);
+        }).catch(error => {
+            console.error("Appwrite connection failed:", error);
+        });
     }
 
     async createPost({title, slug, content, featuredImage, status, userId}){

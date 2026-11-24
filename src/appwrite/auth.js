@@ -10,7 +10,14 @@ export class AuthService{
         this.client
             .setEndpoint(conf.appwriteUrl)
             .setProject(conf.appwriteProjectId);
-        this.account = new Account(this.client);    
+        this.account = new Account(this.client);
+
+        // Ping Appwrite to verify connection
+        this.client.ping().then(response => {
+            console.log("Appwrite connected:", response);
+        }).catch(error => {
+            console.error("Appwrite connection failed:", error);
+        });
     }
 
     async createAccount({email,password,name}){
