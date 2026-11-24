@@ -2,7 +2,6 @@ import conf from "../conf/conf";
 import { Client, Databases, Storage, Query, ID,  } from "appwrite";
 
 
-
 export class Service{
     client = new Client();
     databases;
@@ -31,14 +30,14 @@ export class Service{
         {
             title,
             content,
-            featuredImage,
+            featuredimage: featuredImage,
             status,
-            userId
+            userid: userId
 
         });
         }catch(error){
-            console.log("Appwrite create post:service error",error);
-            
+            console.log("Appwrite create post:service error:", error.response || error);
+            throw error;
         }
     }
 
@@ -51,7 +50,7 @@ export class Service{
         {
             title,
             content,
-            featuredImage,
+            featuredimage: featuredImage,
             status
         });
         }catch(error){
@@ -72,13 +71,13 @@ export class Service{
 }
     async getPost(slug){
         try{
-             await this.databases.getDocument(
+             return await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
             slug);
-            
+
         }catch(error){
-            console.log("Appwrite delete post:service error",error);
+            console.log("Appwrite get post:service error",error);
             return false;
         }
 }
@@ -102,11 +101,11 @@ export class Service{
                 ID.unique(),
                 file
             );
-            
+
         } catch (error) {
             console.log("Appwrite error upload",error);
             return false;
-            
+
         }
 }
     async deleteFile(fileId){
@@ -116,11 +115,11 @@ export class Service{
                 fileId
             );
             return true;
-            
+
         } catch (error) {
             console.log("Appwrite error delete",error);
             return false;
-            
+
         }
 }
     getFilePreview(fileId){

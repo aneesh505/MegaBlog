@@ -39,7 +39,18 @@ export default function PostForm({post}) {
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id });
+
+                let currentUserId = userData?.$id;
+                if (!currentUserId) {
+                    const currentUser = await authService.getCurrentUser();
+                    currentUserId = currentUser?.$id;
+                }
+
+                if (!currentUserId) {
+                    throw new Error("User not authenticated or userId missing");
+                }
+
+                const dbPost = await appwriteService.createPost({ ...data, userId: currentUserId });
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`);

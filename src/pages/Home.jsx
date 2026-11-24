@@ -2,6 +2,7 @@ import React from 'react'
 import appwriteService from '../appwrite/config'
 import { useState, useEffect } from 'react'
 import { Container } from '../components';
+import {PostCard} from '../components';
 function Home() {
     const [posts,setPosts]= useState([]);
     useEffect(()=>{
@@ -33,13 +34,18 @@ function Home() {
                 <div className='flex flex-wrap'>
                     {posts.map((post) => (
                         <div key={post.$id} className='p-2 w-1/4'>
-                            <PostCard {...post} />
+                            <PostCard
+                                $id={post.$id}
+                                title={post.title}
+                                featuredImage={post.featuredImage}
+                                featuredimage={post.featuredimage}
+                            />
                         </div>
                     ))}
                 </div>
             </Container>
         </div>
-    )    
+    )
 }
 
 export default Home
