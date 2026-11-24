@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router'
 import authSlice from '../../store/authSlice'
 function Header() {
   const navigate = useNavigate();
-  const authStatus = useSelector((state)=>{state.auth.status})
+  const authStatus = useSelector((state)=>state.auth.status)
   const navItems = [
     {
       name: 'Home',
