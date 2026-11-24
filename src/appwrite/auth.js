@@ -22,7 +22,7 @@ export class AuthService{
 
     async createAccount({email,password,name}){
         try {
-           const userAccount= await this.account.create({id:ID.unique(),email,password,name})
+           const userAccount= await this.account.create(ID.unique(), email, password, name)
            if(userAccount){
             return this.login({email,password})
            }else{
@@ -34,7 +34,7 @@ export class AuthService{
     }
     async login({email,password}){
         try {
-            return await this.account.createEmailPasswordSession({email,password})
+            return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
             throw error;
         }
@@ -43,7 +43,10 @@ export class AuthService{
         try {
             return await this.account.get();
         } catch (error) {
-            console.log("Appwrite get user",error);
+            // Don't log error for unauthenticated users (expected behavior)
+            if (error.code !== 401) {
+                console.log("Appwrite get user", error);
+            }
         }
         return null;
     }
