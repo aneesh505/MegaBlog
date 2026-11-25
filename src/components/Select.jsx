@@ -11,7 +11,7 @@ function Select({
   return (
 
     <div className="w-full">
-      {label && <label className="" htmlFor={id}></label>}
+      {label && <label className="" htmlFor={id}>{label}</label>}
       <select 
       id={id}
       {...props}
